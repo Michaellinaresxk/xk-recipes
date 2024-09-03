@@ -3,8 +3,9 @@ import { ref, onMounted } from 'vue'
 import RecipeForm from '@/components/RecipeForm.vue'
 import PrimaryButton from '@/components/PrimaryButton.vue'
 import RecipeCard from '@/components/RecipeCard.vue'
-import { collection, getDocs } from '@firebase/firestore'
-import { db } from '../apis/firebaseConfig'
+import { RecipeService } from '@/useCases/index'
+
+const recipeService = new RecipeService()
 
 const isVisible = ref(false)
 
@@ -14,38 +15,30 @@ const showForm = () => {
 
 const recipesList = ref([])
 
-const handleFormSubmit = (payload: {
+const handleFormSubmit = async (payload: {
   title: string
   description: string
   ingredients: string[]
 }) => {
-  recipesList.value.push({ ...payload })
-  isVisible.value = false
-}
-
-const getRecipes = async () => {
-  if (!db) {
-    throw new Error('Firestore instance or userId is undefined!')
-  }
   try {
-    const recipesCollection = collection(db, 'recipes')
-    const querySnapshot = await getDocs(recipesCollection)
-
-    return querySnapshot.docs.map((doc) => {
-      return { id: doc.id, ...doc.data() }
-    })
+    const newRecipe = await recipeService.createRecipe(
+      payload.title,
+      payload.description,
+      payload.ingredients
+    )
+    recipesList.value.push(newRecipe)
+    isVisible.value = false
   } catch (error) {
-    console.error('Error fetching playlists:', error)
-    throw error
+    console.error('Error al crear la receta:', error)
   }
 }
 
 onMounted(async () => {
   try {
-    const fetchedRecipes = await getRecipes()
-    recipesList.value = fetchedRecipes // Guardar las recetas en la variable reactiva
+    const fetchedRecipes = await recipeService.getRecipes()
+    recipesList.value = fetchedRecipes
   } catch (error) {
-    console.error('Error fetching recipes:', error)
+    console.error('Error al obtener las recetas:', error)
   }
 })
 </script>

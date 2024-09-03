@@ -57,14 +57,21 @@ const addIngredient = () => {
           {{ ingredient }}
         </v-chip>
       </div>
-      <PrimaryButton
-        :handleClick="handleSubmit"
-        variantColor="flat"
-        bgColor="primary"
-        text="Create a new  recipe"
-      />
+      <div class="primaryButtonContent">
+        <PrimaryButton
+          :handleClick="handleSubmit"
+          variantColor="flat"
+          bgColor="primary"
+          text="Create a new  recipe"
+        />
+      </div>
     </v-form>
   </v-sheet>
 </template>
 
-<style></style>
+<style>
+.primaryButtonContent {
+  display: flex;
+  justify-content: center;
+}
+</style>

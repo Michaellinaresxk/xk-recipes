@@ -1,0 +1,7 @@
+const VITE_APIKEY = 'AIzaSyBL0J_W-tV0Pe7oVT_FVnCaXIJQ5tzxyLg'
+const authDomain = 'xk-recipes.firebaseapp.com'
+const projectId = 'xk-recipes'
+const storageBucket = 'xk-recipes.appspot.com'
+const MEASSAGEING_SENDER_ID = '29309392914'
+const APP_ID = '1:29309392914:web:58c23b019c779b5be8e0cb'
+const MEASUREMENT_ID = 'G-5W1MLW1R8N'
